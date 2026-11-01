@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Установка корневого сертификата — инструкция</title>
+<style>
+  :root{
+    --bg:#f6f7f9; --card:#ffffff; --text:#1c1f24; --muted:#5b6370;
+    --accent:#2457d6; --border:#e2e5ea; --warn-bg:#fff8e6; --warn-border:#f0c85a;
+    --mono-bg:#f1f3f6;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#14161a; --card:#1d2025; --text:#e9ebef; --muted:#9aa2ad;
+      --accent:#6e9bff; --border:#2c3038; --warn-bg:#2a2410; --warn-border:#8a6d1f;
+      --mono-bg:#23262c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#14161a; --card:#1d2025; --text:#e9ebef; --muted:#9aa2ad;
+    --accent:#6e9bff; --border:#2c3038; --warn-bg:#2a2410; --warn-border:#8a6d1f;
+    --mono-bg:#23262c;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+    padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+    line-height:1.5;
+  }
+  .wrap{max-width:640px; margin:0 auto; padding:32px 20px 60px;}
+  h1{font-size:1.4rem; margin:0 0 6px;}
+  .sub{color:var(--muted); font-size:.95rem; margin-bottom:28px;}
+  .card{
+    background:var(--card); border:1px solid var(--border); border-radius:14px;
+    padding:20px 22px; margin-bottom:18px;
+  }
+  .card h2{font-size:1.05rem; margin:0 0 10px; display:flex; align-items:center; gap:8px;}
+  .step-num{
+    display:inline-flex; align-items:center; justify-content:center;
+    width:24px; height:24px; border-radius:50%; background:var(--accent);
+    color:#fff; font-size:.8rem; font-weight:600; flex-shrink:0;
+  }
+  p{margin:0 0 10px; font-size:.95rem;}
+  .muted{color:var(--muted); font-size:.88rem;}
+  .warn{
+    background:var(--warn-bg); border:1px solid var(--warn-border);
+    border-radius:10px; padding:14px 16px; font-size:.88rem; margin-top:16px;
+  }
+  code, .mono{
+    font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    background:var(--mono-bg); padding:2px 6px; border-radius:5px; font-size:.85rem;
+    word-break:break-all;
+  }
+  .fingerprint-box{
+    background:var(--mono-bg); border:1px solid var(--border); border-radius:10px;
+    padding:12px 14px; font-family:ui-monospace,SFMono-Regular,Consolas,monospace;
+    font-size:.82rem; word-break:break-all; margin:10px 0;
+  }
+  a.btn{
+    display:inline-block; background:var(--accent); color:#fff; text-decoration:none;
+    padding:11px 18px; border-radius:9px; font-size:.92rem; font-weight:600;
+    margin-top:6px;
+  }
+  a.link{color:var(--accent); text-decoration:none; font-size:.9rem;}
+  a.link:hover{text-decoration:underline;}
+  ul{margin:8px 0 0; padding-left:20px; font-size:.9rem;}
+  li{margin-bottom:4px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <h1>Установка корневого сертификата</h1>
+  <p class="sub">Зачем это нужно, как проверить подлинность и как установить — по шагам.</p>
+
+  <div class="card">
+    <h2>Зачем это нужно</h2>
+    <p>
+      Из-за ограничений с выдачей и продлением публичных TLS-сертификатов для сайтов проекта
+      используется собственный корневой сертификат удостоверяющего центра
+      <strong>VoenMine Dev Infrastructure</strong>. Он нужен, чтобы браузер доверял
+      сертификатам, которыми подписаны наши сайты, и не показывал предупреждение о небезопасном соединении.
+    </p>
+    <div class="warn">
+      ⚠️ Установка корневого сертификата — это высокий уровень доверия: такой сертификат технически
+      позволяет его владельцу подписывать HTTPS-соединения для любых сайтов, не только наших.
+      Устанавливайте его только если доверяете источнику, и обязательно сверьте отпечаток ниже
+      перед установкой.
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Проверьте подлинность перед установкой</h2>
+    <p>Сравните SHA-256 отпечаток скачанного файла с эталонным значением, опубликованным на независимых каналах:</p>
+    <div class="fingerprint-box">
+      SHA-256: <!-- ЗАМЕНИТЕ на реальный отпечаток сертификата --> 00:00:00:...:00:00
+    </div>
+    <p class="muted">Проверить отпечаток можно командой:</p>
+    <div class="fingerprint-box">openssl x509 -in cert.pem -noout -fingerprint -sha256</div>
+    <p class="muted">Эталонное значение опубликовано также здесь (сверяйте минимум по двум независимым источникам):</p>
+    <ul>
+      <li><a class="link" href="#" target="_blank" rel="noopener">Официальный сайт проекта → раздел «Безопасность»</a></li>
+      <li><a class="link" href="#" target="_blank" rel="noopener">Репозиторий проекта на GitHub (файл fingerprint.txt)</a></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">1</span> Скачайте сертификат</h2>
+    <p>Архив содержит сертификат в форматах .crt и .pem для разных ОС.</p>
+    <a class="btn" href="https://cloud-eu.voenmine.net/public.php/dav/files/7yg23naqx79fJdA/?accept=zip">
+      Скачать архив с сертификатом
+    </a>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">2</span> Установите вручную</h2>
+    <p><strong>Windows:</strong> дважды кликните по файлу .crt → «Установить сертификат» → «Локальный компьютер» → «Доверенные корневые центры сертификации».</p>
+    <p><strong>macOS:</strong> откройте файл → в «Связке ключей» → категория «Сертификаты» → откройте сертификат → «Доверие» → «Всегда доверять».</p>
+    <p><strong>Android:</strong> Настройки → Безопасность → Шифрование и учётные данные → Установить сертификат → «Сертификат ЦС».</p>
+    <p><strong>iOS:</strong> Настройки → профиль загружен → Общие → VPN и управление устройством → установить профиль, затем Настройки → Основные → Об этом устройстве → Доверие сертификатам → включить.</p>
+    <p class="muted">Браузер может потребовать перезапуск после установки.</p>
+  </div>
+
+  <div class="card">
+    <h2><span class="step-num">3</span> Как убрать сертификат позже</h2>
+    <p>Сертификат можно удалить в любой момент через те же разделы настроек, где он был установлен
+      (хранилище доверенных корневых сертификатов). Это не повлияет на работу остальных сайтов —
+      только наши сайты вновь будут показывать предупреждение о сертификате.</p>
+  </div>
+
+</div>
+</body>
+</html>
