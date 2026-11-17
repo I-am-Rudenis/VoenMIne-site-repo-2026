@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /.well-known/
+Disallow: /.github/
+Disallow: /legal/
+Disallow: /randomavtonomer.html
+Disallow: /uchetnomerovavto.html
+
+Sitemap: https://voenmine.net/sitemap.xml
